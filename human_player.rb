@@ -1,31 +1,32 @@
+class InputError < StandardError
+end
+
 class HumanPlayer
 
   attr_reader :color
 
-  def initialize(color)
+  def initialize(color,board)
     @color = color
+    @board = board
   end
 
-<<<<<<< HEAD
   def get_input
+
     color == :b ? team = 'Black' : team = 'White'
     puts "Hey, #{team} player, make your move!"
     input = gets.chomp
     if (input =~ /[a-h][1-8][\s][a-h][1-8]/) != 0
-      puts input =~ /[a-h][1-8][\s][a-h][1-8]/
-      raise ArgumentError.new "Invalid input. example: 'g1 f3' moves piece at g3 to f3"
-=======
-  def play_turn
-    puts "Hey, #{color.to_s} player, make your move!"
-    input = gets.chomp
-    until input.length == 5
-      puts "incorrect input format...try again like this: 'e2 e4' "
-      input = gets.chomp
->>>>>>> 4ecbfd4526058641852456a7e187b7749536bedc
+      raise InputError.new "Bad input. example: 'g1 f3' moves piece at g3 to f3"
+    end
+    parsed = parse_input(input)
+    if @board[parsed[0]].nil?
+      raise InputError.new "There is no piece there, choose again"
+    end
+    if @board[parsed[0]].color != color
+      raise InputError.new "You chose the wrong color piece, choose again"
     end
 
-    parse_input(input)
-
+    parsed
   end
 
   def parse_input(input)

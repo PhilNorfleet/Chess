@@ -1,7 +1,12 @@
 class SteppingPiece < Piece
-  def moves
-    poss_moves = move_dir
 
+  def initialize(pos, color, board)
+    super(pos,color,board)
+  end
+
+  def moves
+
+    poss_moves = move_dir
     moves = []
     poss_moves.each do |d|
       p_move = [@pos[0]+d[0],@pos[1]+d[1]]
